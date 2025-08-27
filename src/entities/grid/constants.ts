@@ -8,12 +8,7 @@ export const GRID_CONFIG = {
   HORIZONTAL_LINES: 10,
   CELL_SIZE: 100,
   STROKE_WIDTH: 4,
-  PADDING: 8,
   MIN_CLUSTER_SIZE: 3,
-
-  get BLOCK_SIZE() {
-    return this.CELL_SIZE;
-  },
 
   update() {
     const { height, width } = ScreenManager.getSize();

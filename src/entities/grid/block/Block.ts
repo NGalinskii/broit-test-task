@@ -17,7 +17,7 @@ export class Block extends Container {
 
     this.color = this.getRandomColor();
 
-    cell.rect(0, 0, GRID_CONFIG.BLOCK_SIZE, GRID_CONFIG.BLOCK_SIZE).fill(this.color);
+    cell.rect(0, 0, GRID_CONFIG.CELL_SIZE, GRID_CONFIG.CELL_SIZE).fill(this.color);
 
     this.addChild(cell);
 
@@ -28,9 +28,9 @@ export class Block extends Container {
     const icon = new Graphics();
     icon
       .circle(
-        GRID_CONFIG.BLOCK_SIZE / 2,
-        GRID_CONFIG.BLOCK_SIZE / 2,
-        GRID_CONFIG.BLOCK_SIZE / 6
+        GRID_CONFIG.CELL_SIZE / 2,
+        GRID_CONFIG.CELL_SIZE / 2,
+        GRID_CONFIG.CELL_SIZE / 6
       )
       .fill('purple');
 

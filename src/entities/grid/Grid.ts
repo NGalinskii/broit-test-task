@@ -3,7 +3,6 @@ import { Container, Graphics } from 'pixi.js';
 
 import { Matrix, Point } from '@/shared/types';
 import { getMatrix } from '@/shared/utils/get-matrix';
-import { ScreenManager } from '@/shared/utils/ScreenManager';
 
 import { Block } from './block/Block';
 import { DIRECTIONS, GRID_CONFIG, MATRIX_Z_INDEX } from './constants';
