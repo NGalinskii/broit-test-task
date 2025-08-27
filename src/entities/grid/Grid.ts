@@ -113,9 +113,9 @@ export class Grid extends Container {
 
         while (stack.length) {
           const { x: cx, y: cy } = stack.pop()!;
-          for (const d of DIRECTIONS) {
-            const nx = cx + d.x;
-            const ny = cy + d.y;
+          for (const direction of DIRECTIONS) {
+            const nx = cx + direction.x;
+            const ny = cy + direction.y;
 
             const neighborBlock = this.data?.[ny]?.[nx];
 
@@ -124,6 +124,7 @@ export class Grid extends Container {
             if (block && neighborBlock?.color !== block.color) continue;
 
             visited[ny][nx] = true;
+            
             stack.push({ x: nx, y: ny });
             blocks.push({ x: nx, y: ny });
           }
