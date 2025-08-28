@@ -77,7 +77,7 @@ export class Grid extends Container {
       }
     }
 
-    this.findCluster();
+    this.findClusters();
   }
 
   public start() {
@@ -94,48 +94,55 @@ export class Grid extends Container {
     this.setBlocks();
   }
 
-  private findCluster() {
-    const { VERTICAL_LINES, HORIZONTAL_LINES, MIN_CLUSTER_SIZE } = GRID_CONFIG;
+  private findClusters(): Cluster[] {
+    const { MIN_CLUSTER_SIZE, VERTICAL_LINES, HORIZONTAL_LINES } = GRID_CONFIG;
 
-    const visited = getMatrix<boolean>(HORIZONTAL_LINES, VERTICAL_LINES, false);
+    const visited = getMatrix<boolean>(VERTICAL_LINES, HORIZONTAL_LINES, false);
 
     const clusters: Cluster[] = [];
 
+    const tryPush = (nx: number, ny: number, color: number, stack: Point[]) => {
+      if (nx < 0 || ny < 0 || nx >= VERTICAL_LINES || ny >= HORIZONTAL_LINES) return;
+      if (visited[ny][nx]) return;
+
+      const neighborBlock = this.data[ny][nx];
+      if (!neighborBlock) return;
+
+      if (neighborBlock.color !== color) return;
+
+      visited[ny][nx] = true;
+      stack.push({ x: nx, y: ny });
+    };
+
     for (let y = 0; y < VERTICAL_LINES; y++) {
-      for (let x = 0; x < HORIZONTAL_LINES; x++) {
+      for (let x = 0; x < VERTICAL_LINES; x++) {
         if (visited[y][x]) continue;
 
-        visited[y][x] = true;
-        const block = this.data[y][x];
+        const start = this.data[y][x];
+        if (!start) continue;
 
+        const color = start.color;
+        if (color == null) continue;
+
+        // DFS
         const stack: Point[] = [{ x, y }];
-        const blocks: Point[] = [{ x, y }];
+        const blocks: Point[] = [];
+        visited[y][x] = true;
 
         while (stack.length) {
           const { x: cx, y: cy } = stack.pop()!;
-          for (const direction of DIRECTIONS) {
-            const nx = cx + direction.x;
-            const ny = cy + direction.y;
+          blocks.push({ x: cx, y: cy });
 
-            const neighborBlock = this.data?.[ny]?.[nx];
-
-            if (!neighborBlock) continue;
-            if (visited[ny][nx]) continue;
-            if (block && neighborBlock?.color !== block.color) continue;
-
-            visited[ny][nx] = true;
-
-            stack.push({ x: nx, y: ny });
-            blocks.push({ x: nx, y: ny });
-          }
+          tryPush(cx - 1, cy, color, stack);
+          tryPush(cx + 1, cy, color, stack);
+          tryPush(cx, cy - 1, color, stack);
+          tryPush(cx, cy + 1, color, stack);
         }
 
         if (blocks.length >= MIN_CLUSTER_SIZE) {
-          blocks.forEach(({ x: bx, y: by }) => {
-            const block = this.data[by][bx];
-
-            block?.setClusterIcon();
-          });
+          for (const { x: bx, y: by } of blocks) {
+            this.data[by][bx]?.setClusterIcon();
+          }
 
           clusters.push({
             id: nanoid(),
