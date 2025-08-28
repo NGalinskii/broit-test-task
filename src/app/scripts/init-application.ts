@@ -28,8 +28,6 @@ export default async function initApplication() {
   window.addEventListener('resize', () => resize());
 
   const resize = () => {
-    GRID_CONFIG.update();
-
     grid.scale.set(ScreenManager.getScale());
 
     grid.position.set(

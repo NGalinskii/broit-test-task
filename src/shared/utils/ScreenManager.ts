@@ -18,6 +18,6 @@ export class ScreenManager {
     const scaleX = width / this.originalSize.width;
     const scaleY = height / this.originalSize.height;
 
-    return Math.min(scaleX, scaleY);
+    return Math.min(scaleX, scaleY, 1);
   };
 }

@@ -119,12 +119,14 @@ export class Grid extends Container {
 
             const neighborBlock = this.data?.[ny]?.[nx];
 
+            console.log(block?.color);
+
             if (!neighborBlock) continue;
             if (visited[ny][nx]) continue;
             if (block && neighborBlock?.color !== block.color) continue;
 
             visited[ny][nx] = true;
-            
+
             stack.push({ x: nx, y: ny });
             blocks.push({ x: nx, y: ny });
           }

@@ -1,7 +1,7 @@
 import { Point } from '@/shared/types';
 import { ScreenManager } from '@/shared/utils/ScreenManager';
 
-import { IColor } from './types';
+import { Color } from './types';
 
 export const GRID_CONFIG = {
   VERTICAL_LINES: 10,
@@ -9,6 +9,7 @@ export const GRID_CONFIG = {
   CELL_SIZE: 100,
   STROKE_WIDTH: 4,
   MIN_CLUSTER_SIZE: 3,
+  COLORS: ['red', 'blue', 'orange', 'green', 'yellow'] as Color[],
 
   update() {
     const { height, width } = ScreenManager.getSize();
@@ -18,8 +19,6 @@ export const GRID_CONFIG = {
     );
   },
 };
-
-export const COLORS: IColor[] = ['red', 'blue', 'orange', 'green', 'yellow'];
 
 export const DIRECTIONS: Point[] = [
   { x: 1, y: 0 },
